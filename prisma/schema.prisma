@@ -10,29 +10,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model articles {
-  id  Int @unique
-  features Boolean
+model Article {
+  id  Int @id @default(autoincrement())
+  originalId Int @unique
+  featured Boolean
   title String
   url String
   imageUrl String
   newsSite String
   summary String
   publishedAt String
-  launches launches[]
-  events events[]
+  launches ArticleLaunch[]
+  events ArticleEvent[]
+
+  @@map("articles")
 }
 
-model launches {
-  id String @unique
+model Launch {
+  id Int @id @default(autoincrement())
+  originalId String @unique
   provider String
-  article articles @relation(fields: [articleId], references: [id])
-  articleId Int
+  articles ArticleLaunch[]
+
+  @@map("launches")
 }
 
-model events {
-  id String @unique
+model Event {
+  id Int @id @default(autoincrement())
+  originalId String @unique
   provider String
-  article articles @relation(fields: [articleId], references: [id])
+  articles ArticleEvent[]
+
+  @@map("events")
+}
+
+model ArticleLaunch {
+  id Int @id @default(autoincrement())
+  article Article @relation(fields: [articleId], references: [id])
   articleId Int
+  launch Launch @relation(fields: [launchId], references: [id])
+  launchId Int
+}
+
+model ArticleEvent {
+  id Int @id @default(autoincrement())
+  article Article @relation(fields: [articleId], references: [id])
+  articleId Int
+  event Event @relation(fields: [eventId], references: [id])
+  eventId Int
 }
