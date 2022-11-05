@@ -6,8 +6,8 @@ async function getNews(req: Request, res: Response) {
     res.send(new Date());
 }
 
-const articlesController = {
+const controllers = {
     getNews
 };
 
-export default articlesController;
+export default controllers;
