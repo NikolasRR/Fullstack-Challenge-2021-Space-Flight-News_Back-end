@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
-import * as crud from "../CRUD/CRUD.js";
+import articlesServices from "../services/articlesServices.js";
 
-async function getNews(req: Request, res: Response) {
-    // const response = await crud.getNews();
-    res.send(new Date());
+async function getNewsById(req: Request, res: Response) {
+    const newsId = parseInt(req.params.id);
+    const article = await articlesServices.getOneById(newsId);
+    res.send(article);
 }
 
 const controllers = {
-    getNews
+    getNewsById
 };
 
 export default controllers;

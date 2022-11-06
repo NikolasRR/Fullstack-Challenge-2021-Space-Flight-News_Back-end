@@ -3,6 +3,6 @@ import controllers from "../controllers/articlesController.js";
 
 const articlesRouter = Router();
 
-articlesRouter.get("/news", controllers.getNews);
+articlesRouter.get("/news/:id", controllers.getNewsById);
 
 export default articlesRouter;
