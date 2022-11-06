@@ -12,3 +12,5 @@ export type DatabaseArticle = Article & {
 };
 
 export type BuildedArticle = Omit<RawArticle, 'updatedAt'>;
+
+export type SortOrder = 'desc' | 'asc';

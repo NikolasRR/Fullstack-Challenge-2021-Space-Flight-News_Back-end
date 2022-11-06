@@ -1,5 +1,5 @@
 import { ArticleEvent, ArticleLaunch, Event, Launch } from "@prisma/client";
-import { BuildedArticle, DatabaseArticle } from "../types/articleTypes.js";
+import { BuildedArticle, DatabaseArticle, SortOrder } from "../types/articleTypes.js";
 
 import articlesRepository from "../repositories/articlesRepository.js";
 import eventsRepository from "../repositories/eventsRepository.js";
@@ -7,9 +7,12 @@ import launchsRepository from "../repositories/launchesRepository.js";
 
 async function getOneById(id: number) {
 	const article = await articlesRepository.getById(id);
-	const launches = await getArticleLaunches(article.launches);
-	const events = await getArticleEvents(article.events);
-	return buildArticle(article, launches, events);
+	return await buildArticle(article);
+}
+
+async function getByPages(page: number, order: SortOrder) {
+	const articles = await articlesRepository.getByPage(page, order);
+	return await Promise.all(articles.map(async (article): Promise<BuildedArticle> => buildArticle(article)));
 }
 
 async function getArticleLaunches(launches: ArticleLaunch[]) {
@@ -21,7 +24,10 @@ async function getArticleEvents(events: ArticleEvent[]) {
 	
 }
 
-function buildArticle(rawArticle: DatabaseArticle, launches: Launch[], events: Event[]): BuildedArticle {
+async function buildArticle(rawArticle: DatabaseArticle): Promise<BuildedArticle> {
+	const launches = await getArticleLaunches(rawArticle.launches);
+	const events = await getArticleEvents(rawArticle.events);
+
 	return {
 		id: rawArticle.id,
 		originalId: rawArticle.originalId,
@@ -34,11 +40,12 @@ function buildArticle(rawArticle: DatabaseArticle, launches: Launch[], events: E
 		url: rawArticle.url,
 		launches: launches,
 		events: events
-	}
+	};
 };
 
 const articlesServices = {
-	getOneById
+	getOneById,
+	getByPages
 };
 
 export default articlesServices;

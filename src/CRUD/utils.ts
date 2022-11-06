@@ -55,10 +55,10 @@ async function saveNewsFromAPI(articles: RawArticle[], prisma: PrismaClient) {
 				create: event
 			});
 
-			await prisma.articleLaunch.create({
+			await prisma.articleEvent.create({
 				data: {
 					articleId: article.id,
-					launchId: eventWithId.id
+					eventId: eventWithId.id
 				}
 			});
 		});
