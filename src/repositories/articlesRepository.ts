@@ -16,7 +16,7 @@ async function getById(id: number) {
 async function getByPage(page: number, order: SortOrder) {
 	return await prisma.article.findMany({
 		orderBy: {
-			originalId: order
+			publishedAt: order
 		},
 		take: 10,
 		skip: page*10,
@@ -35,7 +35,7 @@ async function getByTitle(page: number, order: SortOrder, searchValue: string) {
 			}
 		},
 		orderBy: {
-			originalId: order
+			publishedAt: order
 		},
 		take: 10,
 		skip: page*10,
