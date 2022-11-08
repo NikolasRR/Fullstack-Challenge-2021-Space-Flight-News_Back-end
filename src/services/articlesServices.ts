@@ -15,6 +15,11 @@ async function getByPages(page: number, order: SortOrder) {
 	return await Promise.all(articles.map(async (article): Promise<BuildedArticle> => buildArticle(article)));
 }
 
+async function getByTitle(page: number, order: SortOrder, searchValue: string) {
+	const articles = await articlesRepository.getByTitle(page, order, searchValue);
+	return await Promise.all(articles.map(async (article): Promise<BuildedArticle> => buildArticle(article)));
+}
+
 async function getArticleLaunches(launches: ArticleLaunch[]) {
 	return await Promise.all(launches.map(async (launch): Promise<Launch> => await launchsRepository.getById(launch.launchId)));
 }
@@ -45,7 +50,8 @@ async function buildArticle(rawArticle: DatabaseArticle): Promise<BuildedArticle
 
 const articlesServices = {
 	getOneById,
-	getByPages
+	getByPages,
+	getByTitle
 };
 
 export default articlesServices;

@@ -18,8 +18,27 @@ async function getByPage(page: number, order: SortOrder) {
 		orderBy: {
 			originalId: order
 		},
-		take: 2,
-		skip: page*2,
+		take: 10,
+		skip: page*10,
+		include:{
+			events: {},
+			launches: {}
+		}
+	})
+}
+
+async function getByTitle(page: number, order: SortOrder, searchValue: string) {
+	return await prisma.article.findMany({
+		where: {
+			title: {
+				contains: searchValue
+			}
+		},
+		orderBy: {
+			originalId: order
+		},
+		take: 10,
+		skip: page*10,
 		include:{
 			events: {},
 			launches: {}
@@ -29,7 +48,8 @@ async function getByPage(page: number, order: SortOrder) {
 
 const articlesRepository = {
 	getById,
-	getByPage
+	getByPage,
+	getByTitle
 }
 
 export default articlesRepository;

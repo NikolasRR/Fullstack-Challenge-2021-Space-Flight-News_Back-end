@@ -13,7 +13,7 @@ async function validateArticleId(req: Request, res: Response, next: NextFunction
 
 async function validatePage(req: Request, res: Response, next: NextFunction) {
   const page = Number(req.query.page);
-  if (!page) throw { type: "query invalid" };
+  if (page !== 0 && !page) throw { type: "query invalid" };
 
   next();
 }
