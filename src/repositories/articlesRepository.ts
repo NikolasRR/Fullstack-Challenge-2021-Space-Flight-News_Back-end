@@ -31,7 +31,8 @@ async function getByTitle(page: number, order: SortOrder, searchValue: string) {
 	return await prisma.article.findMany({
 		where: {
 			title: {
-				contains: searchValue
+				contains: searchValue,
+				mode: 'insensitive'
 			}
 		},
 		orderBy: {
