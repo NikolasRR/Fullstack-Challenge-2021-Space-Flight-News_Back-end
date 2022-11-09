@@ -5,7 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "build": "tsc",
+    "prisma:migrate": "prisma migrate deploy",
+    "start": "npm run prisma:migrate && npx prisma db seed && node dist/src/server.js"
   },
   "keywords": [],
   "author": "",
