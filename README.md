@@ -13,7 +13,7 @@ This is the back-end part of the challenge, it serves the front-end with article
 
 ## How to Run
 ### Steps using localhost
-- bash `npm i` in the terminal
+- bash `npm i` and `npm i -D` in the terminal
 - create a .env file
 - write the following on it
     - `PORT=` port where the back-end will run on 
@@ -28,11 +28,12 @@ This is the back-end part of the challenge, it serves the front-end with article
 - bash `prisma migrate dev` in the terminal
 - if it did not ran the seed, bash `npx prisma db seed` in the terminal
 - last, bash `npm run dev` in the terminal
+- if types errors or imports from `@prisma/client` appear, open the command palette and run `Prisma: Restart Language Server` and/or `TypeScript: Restart TS server`. To run the latter you need to be editing a typescript file
 
 ### Steps using Docker
 - create a .env.docker file
 - write the following on it
-    - `PORT=` port where the Docker container will run on 
+    - `PORT=5000` port where the Docker container will run on 
     - `POSTGRES_USERNAME=postgres`, you can change it
     - `POSTGRES_PASSWORD=postgres`, you can change it
     - `POSTGRES_HOST=database`, refers to the service in the docker-compose.yaml file
