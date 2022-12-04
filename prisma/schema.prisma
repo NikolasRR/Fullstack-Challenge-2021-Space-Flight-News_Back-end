@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id  Int @id @default(autoincrement())
+  originalId Int @unique
+  featured Boolean
+  title String
+  url String
+  imageUrl String
+  newsSite String
+  summary String
+  publishedAt String
+  launches ArticleLaunch[]
+  events ArticleEvent[]
+
+  @@map("articles")
+}
+
+model Launch {
+  id Int @id @default(autoincrement())
+  originalId String @unique
+  provider String
+  articles ArticleLaunch[]
+
+  @@map("launches")
+}
+
+model Event {
+  id Int @id @default(autoincrement())
+  originalId String @unique
+  provider String
+  articles ArticleEvent[]
+
+  @@map("events")
+}
+
+model ArticleLaunch {
+  id Int @id @default(autoincrement())
+  article Article @relation(fields: [articleId], references: [id])
+  articleId Int
+  launch Launch @relation(fields: [launchId], references: [id])
+  launchId Int
+}
+
+model ArticleEvent {
+  id Int @id @default(autoincrement())
+  article Article @relation(fields: [articleId], references: [id])
+  articleId Int
+  event Event @relation(fields: [eventId], references: [id])
+  eventId Int
+}
